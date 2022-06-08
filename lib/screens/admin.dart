@@ -1,4 +1,8 @@
+import 'package:admin_fashion_shop/screens/add_product.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:admin_fashion_shop/db/brand.dart';
+import 'package:admin_fashion_shop/db/category.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -17,8 +21,8 @@ class _AdminState extends State<Admin> {
   TextEditingController brandController = TextEditingController();
   GlobalKey<FormState> _categoryFormKey = GlobalKey();
   GlobalKey<FormState> _brandFormKey = GlobalKey();
-  // BrandService _brandService = BrandService();
-  // CategoryService _categoryService = CategoryService();
+  BrandService _brandService = BrandService();
+  CategoryService _categoryService = CategoryService();
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +343,12 @@ class _AdminState extends State<Admin> {
             ListTile(
               leading: const Icon(Icons.add),
               title: const Text("Add product"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddProduct()));
+              },
             ),
             const Divider(),
             ListTile(
@@ -352,7 +361,7 @@ class _AdminState extends State<Admin> {
               leading: const Icon(Icons.add_circle),
               title: const Text("Add category"),
               onTap: () {
-                // _categoryAlert();
+                _categoryAlert();
               },
             ),
             const Divider(),
@@ -366,7 +375,7 @@ class _AdminState extends State<Admin> {
               leading: const Icon(Icons.add_circle_outline),
               title: const Text("Add brand"),
               onTap: () {
-                // _brandAlert();
+                _brandAlert();
               },
             ),
             const Divider(),
@@ -384,73 +393,71 @@ class _AdminState extends State<Admin> {
     }
   }
 
-  // void _categoryAlert() {
-  //   var alert = new AlertDialog(
-  //     content: Form(
-  //       key: _categoryFormKey,
-  //       child: TextFormField(
-  //         controller: categoryController,
-  //         validator: (value) {
-  //           if (value.isEmpty) {
-  //             return 'category cannot be empty';
-  //           }
-  //         },
-  //         decoration: InputDecoration(hintText: "add category"),
-  //       ),
-  //     ),
-  //     actions: <Widget>[
-  //       FlatButton(
-  //           onPressed: () {
-  //             if (categoryController.text != null) {
-  //               _categoryService.createCategory(categoryController.text);
-  //             }
-  //             Fluttertoast.showToast(msg: 'category created');
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('ADD')),
-  //       FlatButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('CANCEL')),
-  //     ],
-  //   );
+  void _categoryAlert() {
+    var alert = AlertDialog(
+      content: Form(
+        key: _categoryFormKey,
+        child: TextFormField(
+          controller: categoryController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'category cannot be empty';
+            }
+            return null;
+          },
+          decoration: const InputDecoration(hintText: "add category"),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+            onPressed: () {
+              _categoryService.createCategory(categoryController.text);
+              Fluttertoast.showToast(msg: 'category created');
+              Navigator.pop(context);
+            },
+            child: const Text('ADD')),
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('CANCEL')),
+      ],
+    );
 
-  //   showDialog(context: context, builder: (_) => alert);
-  // }
+    showDialog(context: context, builder: (_) => alert);
+  }
 
-  // void _brandAlert() {
-  //   var alert = new AlertDialog(
-  //     content: Form(
-  //       key: _brandFormKey,
-  //       child: TextFormField(
-  //         controller: brandController,
-  //         validator: (value) {
-  //           if (value.isEmpty) {
-  //             return 'category cannot be empty';
-  //           }
-  //         },
-  //         decoration: InputDecoration(hintText: "add brand"),
-  //       ),
-  //     ),
-  //     actions: <Widget>[
-  //       FlatButton(
-  //           onPressed: () {
-  //             if (brandController.text != null) {
-  //               _brandService.createBrand(brandController.text);
-  //             }
-  //             Fluttertoast.showToast(msg: 'brand added');
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('ADD')),
-  //       FlatButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //           },
-  //           child: Text('CANCEL')),
-  //     ],
-  //   );
+  void _brandAlert() {
+    var alert = AlertDialog(
+      content: Form(
+        key: _brandFormKey,
+        child: TextFormField(
+          controller: brandController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'brand cannot be empty';
+            }
+            return null;
+          },
+          decoration: const InputDecoration(hintText: "add brand"),
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+            onPressed: () {
+              _brandService.createBrand(brandController.text);
+              Fluttertoast.showToast(msg: 'brand created');
+              Navigator.pop(context);
+            },
+            child: const Text('ADD')),
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('CANCEL')),
+      ],
+    );
 
-  //   showDialog(context: context, builder: (_) => alert);
-  // }
+    showDialog(context: context, builder: (_) => alert);
+  }
 }

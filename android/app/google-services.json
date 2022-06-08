@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "989884033884",
+    "firebase_url": "https://fashion-shop101-default-rtdb.firebaseio.com",
+    "project_id": "fashion-shop101",
+    "storage_bucket": "fashion-shop101.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989884033884:android:c6f1ab4a326ca646836f99",
+        "android_client_info": {
+          "package_name": "com.example.admin_fashion_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989884033884-2j5q2h8hkpkldqkc8sikjt4als4k06k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg1kDOvxEMcsn6LFZKTOOhLS2fcpld3T4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989884033884-2j5q2h8hkpkldqkc8sikjt4als4k06k2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989884033884-ui1b41hdjonpuifafpbviht0ev61nmda.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "42web.io.jcaproject2-techshop.fashionShop"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989884033884:android:aa3bb61739a77e5e836f99",
+        "android_client_info": {
+          "package_name": "u42web.io.jcaproject2techshop.fashion_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989884033884-aninlf1ridq1pep7rlved69b791b3n5t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "u42web.io.jcaproject2techshop.fashion_shop",
+            "certificate_hash": "ecd94ea2c5cf6efbceda32527ed9f0c579d285fe"
+          }
+        },
+        {
+          "client_id": "989884033884-cp2qa8e0dce4og4gjgfo61stlbso7etj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "u42web.io.jcaproject2techshop.fashion_shop",
+            "certificate_hash": "750d19e885dbbf0fcaff14727eb53f96f54b8251"
+          }
+        },
+        {
+          "client_id": "989884033884-2j5q2h8hkpkldqkc8sikjt4als4k06k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDg1kDOvxEMcsn6LFZKTOOhLS2fcpld3T4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989884033884-2j5q2h8hkpkldqkc8sikjt4als4k06k2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989884033884-ui1b41hdjonpuifafpbviht0ev61nmda.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "42web.io.jcaproject2-techshop.fashionShop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
