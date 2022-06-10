@@ -18,6 +18,7 @@ class BrandService {
 //method to get brands from database
   Future<List<DocumentSnapshot>> getBrands() {
     return _firestore.collection(ref).get().then((snaps) {
+      print(snaps.docs.length);
       return snaps.docs;
     });
   }

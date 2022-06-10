@@ -15,9 +15,21 @@ class CategoryService {
   }
 
   //method to get categories from database
-  Future<List<DocumentSnapshot>> getCategories() {
-    return _firestore.collection(ref).get().then((snaps) {
-      return snaps.docs;
-    });
+  Future<List<DocumentSnapshot>> getCategories() =>
+      _firestore.collection(ref).get().then((snaps) {
+        return snaps.docs;
+      });
+
+  //method that will create our suggestions when searching with flutter_typeahead
+  Future<List<DocumentSnapshot>> getSuggestions(String suggestion) => _firestore
+          .collection(ref)
+          .where('category', isEqualTo: suggestion)
+          .get()
+          .then((snap) {
+        return snap.docs;
+      });
+
+  Future<QuerySnapshot> getAll() {
+    return _firestore.collection(ref).get();
   }
 }

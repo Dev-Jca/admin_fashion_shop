@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:admin_fashion_shop/db/brand.dart';
 import 'package:admin_fashion_shop/db/category.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -22,35 +23,50 @@ class _AddProductState extends State<AddProduct> {
   List<DropdownMenuItem<String>> categoriesDropDown =
       <DropdownMenuItem<String>>[];
   List<DropdownMenuItem<String>> brandsDropDown = <DropdownMenuItem<String>>[];
-  late String currentCategory;
-  late String currentBrand;
+  late String _currentCategory;
+  late String _currentBrand;
   Color white = Colors.white;
   Color black = Colors.black;
   Color grey = Colors.grey;
   Color red = Colors.red;
   Color green = Colors.green;
+  String? _selectedCategory; // Field
 
   @override
   void initState() {
     _getCategories();
-    categoriesDropDown = getCategoriesDropDown();
-    currentCategory = categoriesDropDown[0].value!;
+    //  _getBrand();
+    getCategoriesDropDown();
+    print(categoriesDropDown.length);
+    // currentCategory = categoriesDropDown[0].value!;
 
     super.initState();
   }
 
 //Creating Method for a list of DropDownMenuItems that are Strings that will be gotten from firestore
-  List<DropdownMenuItem<String>> getCategoriesDropDown() {
-    List<DropdownMenuItem<String>> dropDownItems = [];
-    for (DocumentSnapshot category in categories) {
-      dropDownItems.add(
-        DropdownMenuItem(
-          value: category['category'],
-          child: Text(category['category']),
-        ),
-      );
+  void getCategoriesDropDown() {
+    for (int index = 0; index < categories.length; index++) {
+      setState(() {
+        categoriesDropDown.insert(
+          0,
+          DropdownMenuItem(
+            value: categories[index]['category'],
+            child: Text(
+              categories[index]['category'],
+            ),
+          ),
+        );
+      });
     }
-    return dropDownItems;
+
+    // for (DocumentSnapshot category in categories) {
+    //   dropDownItems.add(
+    //     DropdownMenuItem(
+    //       value: category['category'],
+    //       child: Text(category['category']),
+    //     ),
+    //   );
+    // }
   }
 
   @override
@@ -70,7 +86,7 @@ class _AddProductState extends State<AddProduct> {
       ),
       body: Form(
         key: _formKey,
-        child: ListView(
+        child: Column(
           children: [
             Row(
               children: [
@@ -159,24 +175,85 @@ class _AddProductState extends State<AddProduct> {
                 },
               ),
             ),
-            Center(
-              child: DropdownButton(
-                  value: currentCategory,
-                  items: categoriesDropDown,
-                  onChanged: changeSelectedCategory()),
+
+            FutureBuilder<QuerySnapshot>(
+              future: _categoryService.getAll(),
+              builder: (context, snapshot) {
+                print(snapshot.connectionState);
+
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                print("Docs ${snapshot.data!.size}");
+
+                final list =
+                    snapshot.data!.docs.map((e) => e["category"]).toList();
+
+                return DropdownButton(
+                  items: list.map((value) {
+                    return DropdownMenuItem<String>(
+                        value: value, child: Text(value));
+                  }).toList(),
+                  value: _selectedCategory ?? list[0] as String,
+                  onChanged: (String? newVal) {
+                    setState(() {
+                      _selectedCategory = newVal;
+                    });
+                  },
+                );
+              },
             )
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: TypeAheadField(
+            //     textFieldConfiguration: const TextFieldConfiguration(
+            //       autofocus: false,
+            //       // style: DefaultTextStyle.of(context)
+            //       //     .style
+            //       //     .copyWith(fontStyle: FontStyle.italic),
+            //       decoration: InputDecoration(hintText: 'product name'),
+            //     ),
+            //     suggestionsCallback: (pattern) async {
+            //       return await _categoryService.getSuggestions(pattern);
+            //     },
+            //     itemBuilder: (context, suggestion) {
+            //       return ListTile(
+            //         leading: const Icon(Icons.category),
+            //         title: Text(suggestion['category']),
+            //       );
+            //     },
+            //     onSuggestionSelected: (suggestion) {
+            //       // Navigator.of(context).push(MaterialPageRoute(
+            //       //     builder: (context) => ProductPage(product: suggestion)));
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
 
-  void _getCategories() async {
+  _getCategories() async {
     List<DocumentSnapshot> data = await _categoryService.getCategories();
+    print(data.length);
     setState(() {
       categories = data;
+      print(categories.length);
     });
   }
 
-  changeSelectedCategory() {}
+//this happens when an item in the dropdown categories is clicked on
+  changeSelectedCategory(String selectedCategory) {
+    setState(() => _currentCategory = selectedCategory);
+  }
+
+  void _getBrand() {}
 }
