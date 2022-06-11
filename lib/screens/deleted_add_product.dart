@@ -33,6 +33,43 @@ class _AddProductState extends State<AddProduct> {
   String? _selectedCategory; // Field
 
   @override
+  void initState() {
+    // _getCategories();
+    //  _getBrand();
+    // getCategoriesDropDown();
+    print(categoriesDropDown.length);
+    // currentCategory = categoriesDropDown[0].value!;
+
+    super.initState();
+  }
+
+//Creating Method for a list of DropDownMenuItems that are Strings that will be gotten from firestore
+  // void getCategoriesDropDown() {
+  //   for (int index = 0; index < categories.length; index++) {
+  //     setState(() {
+  //       categoriesDropDown.insert(
+  //         0,
+  //         DropdownMenuItem(
+  //           value: categories[index]['category'],
+  //           child: Text(
+  //             categories[index]['category'],
+  //           ),
+  //         ),
+  //       );
+  //     });
+  //   }
+
+  //   for (DocumentSnapshot category in categories) {
+  //     dropDownItems.add(
+  //       DropdownMenuItem(
+  //         value: category['category'],
+  //         child: Text(category['category']),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -138,7 +175,7 @@ class _AddProductState extends State<AddProduct> {
                 },
               ),
             ),
-//==============code for the drop down============================
+//code for the drop down
             FutureBuilder<QuerySnapshot>(
               future: _categoryService.getAll(),
               builder: (context, snapshot) {
@@ -173,11 +210,46 @@ class _AddProductState extends State<AddProduct> {
                 );
               },
             ),
+//==================TYPEAHEAD CODE ==================================================
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: TypeAheadField(
+            //     textFieldConfiguration: const TextFieldConfiguration(
+            //       autofocus: false,
+            //       // style: DefaultTextStyle.of(context)
+            //       //     .style
+            //       //     .copyWith(fontStyle: FontStyle.italic),
+            //       decoration: InputDecoration(hintText: 'product name'),
+            //     ),
+            //     suggestionsCallback: (pattern) async {
+            //       return await _categoryService.getSuggestions(pattern);
+            //     },
+            //     itemBuilder: (context, suggestion) {
+            //       return ListTile(
+            //         leading: const Icon(Icons.category),
+            //         title: Text(suggestion['category']),
+            //       );
+            //     },
+            //     onSuggestionSelected: (suggestion) {
+            //       // Navigator.of(context).push(MaterialPageRoute(
+            //       //     builder: (context) => ProductPage(product: suggestion)));
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
     );
   }
+
+  // _getCategories() async {
+  //   List<DocumentSnapshot> data = await _categoryService.getCategories();
+  //   print(data.length);
+  //   setState(() {
+  //     categories = data;
+  //     print(categories.length);
+  //   });
+  // }
 
 //this happens when an item in the dropdown categories is clicked on
   changeSelectedCategory(String selectedCategory) {

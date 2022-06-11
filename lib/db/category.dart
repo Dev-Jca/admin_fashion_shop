@@ -29,6 +29,7 @@ class CategoryService {
         return snap.docs;
       });
 
+//method for dropdownmenu
   Future<QuerySnapshot> getAll() {
     return _firestore.collection(ref).get();
   }
